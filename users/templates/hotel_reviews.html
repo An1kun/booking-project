@@ -17,6 +17,10 @@
         <li>
             <strong>{{ review.user.username }}:</strong> {{ review.stars }} stars
             <p>{{ review.content }}</p>
+            {% if review.user == user %}
+                <a href = "{% url 'edit_review' hotel.id review.id %}" ><button type="button" class="btn btn-outline-primary" >Edit</button></a>
+                <a href = "{% url 'delete_review' hotel.id review.id %}" ><button type="button" class="btn btn-outline-primary" >Delete</button></a>
+            {% endif %}
         </li>
     {% empty %}
         <li>No reviews yet.</li>
