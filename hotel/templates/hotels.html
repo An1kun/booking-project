@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'hotel/styles.css' %}">
+    <title>Hotels</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <h2 class="title text-center">Hotels</h2>
+
+
+    <div class="container">
+        <div class="row">
+            {% for hotel in hotels %}
+                <div class="col-md-4 mb-4">
+                    <a href="{% url 'hotel_detail' hotel.id %}" class="text-decoration-none text-dark">
+                        <div class="card" >
+                            <img src={{ hotel.photo.url }} alt="hotel image" class="card-img-top">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ hotel.name }}</h5>
+                                <p class="card-text">{{ hotel.description }}</p>
+                                <p class="card-text"><small class="text-muted">Location: {{ hotel.city }}</small></p>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            {% empty %}
+                <p>No hotels available.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+
+</body>
+</html>
