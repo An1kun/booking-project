@@ -19,6 +19,7 @@
                 <img src={{ hotel.photo.url }} alt="hotel image" class="detail_img" >
                 <div class="mt-3">
                     <p class="fs-4">{{hotel.description}}</p>
+                    <a href = "{% url 'hotel_reviews' hotel.id %}"><p>See reviews</p></a>
                 </div>
                 <a href = "{% url 'booking_room' hotel.id %}" ><button type="button" class="btn btn-outline-primary" >Book</button></a>
             </div>

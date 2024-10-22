@@ -1,0 +1,24 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'hotel/styles.css' %}">
+    <title>Hotels</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<h1>Reviews for {{ hotel.name }}</h1>
+<a href = "{% url 'create_review' hotel.id %}" ><button type="button" class="btn btn-outline-primary" >Leave a review</button></a>
+<ul>
+    {% for review in reviews %}
+        <li>
+            <strong>{{ review.user.username }}:</strong> {{ review.stars }} stars
+            <p>{{ review.content }}</p>
+        </li>
+    {% empty %}
+        <li>No reviews yet.</li>
+    {% endfor %}
+</ul>
