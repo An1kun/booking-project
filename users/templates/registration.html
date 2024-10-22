@@ -1,18 +1,26 @@
+{% load bootstrap5 %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registarion</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 <body>
-    <h2>Registarion</h2>
-
-    <form method="post">
-        {%csrf_token%}
-        {{user_form.as_p}}
-        <button type="submit">Sign up</button>
-    </form>
+    <div class="container centered-container d-flex justify-content-center align-items-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4">Sign Up</h2>
+            <form method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                    {{ user_form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-success btn-block mt-3">Sign up</button>
+            </form>
+        </div>
+    </div>
 
 </body>
 </html>
