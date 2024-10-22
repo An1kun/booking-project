@@ -11,8 +11,16 @@
     {% bootstrap_javascript %}
 </head>
 <body>
-    <h2 class="title text-center">{{hotel.name}}</h2>
-
+    <div class="container">
+        <div class="title text-center">
+            <h2 class="title text-center">{{hotel.name}}</h2>
+            <img src={{ hotel.photo.url }} alt="hotel image" class="detail_img">
+            <a href = "{% url 'booking_room' hotel.id %}"><button type="button" class="btn btn-outline-primary">Book</button></a>
+        </div>
+    </div>
     
+    
+
+
 </body>
 </html>
