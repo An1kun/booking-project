@@ -12,7 +12,7 @@ def hotel_detail(request, hotel_id):
     hotel = get_object_or_404(Hotel, id=hotel_id)
     return render(request, 'hotel_detail.html', {'hotel':hotel})
 
-@login_required
+@login_required(login_url='/login/')
 def booking_room(request, hotel_id):
     hotel = get_object_or_404(Hotel, id=hotel_id)
     rooms = Room.objects.filter(hotel=hotel, reserved=False)
