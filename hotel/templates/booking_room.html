@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'hotel/styles.css' %}">
+    <title>Booking</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <div class="container">
+        <div class="title text-center">
+            <div class="container">
+                <h2 class="text-center">{{ hotel.name }}</h2>
+                
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="room" class="form-label">Choose room:</label>
+                        {{ form.room }}  <!-- Здесь будет отображён выпадающий список для доступных комнат -->
+                    </div>
+                    <button type="submit" class="btn btn-primary">Book</button>
+                </form>
+                
+                <h3>All rooms:</h3>
+                <ul>
+                    {% for room in rooms %}
+                        <li>Room ID: {{ room.id }} - Reserved: {{ room.reserved }}</li>
+                    {% empty %}
+                        <li>No rooms.</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+    
+    
+    
+
+
+</body>
+</html>

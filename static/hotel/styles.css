@@ -1,0 +1,13 @@
+.card:hover {
+    cursor: pointer;
+    box-shadow: 0 4px 8px rgba(8, 7, 7, 0.2);
+}
+
+.card-img-top{
+    height: 15em;
+}
+
+.detail_img{
+    height: 30em;
+    width: 30em;
+}

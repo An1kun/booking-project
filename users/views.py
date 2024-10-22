@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_list_or_404
 from django.contrib import messages
 from .forms import UserRegistationForm
-from .models import User
+from .models import User, Favorites, Employee, Review
 
 
 def registration(request):
@@ -11,7 +11,7 @@ def registration(request):
         if user_form.is_valid():
             user = user_form.save()
 
-        redirect("login")
+        return redirect("login")
 
     else:
         user_form = UserRegistationForm()

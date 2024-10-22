@@ -1,0 +1,26 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'hotel/styles.css' %}">
+    <title>Hotels</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <div class="container">
+        <div class="title text-center">
+            <h2 class="title text-center">{{hotel.name}}</h2>
+            <img src={{ hotel.photo.url }} alt="hotel image" class="detail_img">
+            <a href = "{% url 'booking_room' hotel.id %}"><button type="button" class="btn btn-outline-primary">Book</button></a>
+        </div>
+    </div>
+    
+    
+
+
+</body>
+</html>
