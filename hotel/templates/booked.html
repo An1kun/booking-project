@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'hotel/styles.css' %}">
+    <title>Hotels</title>
+    {% load bootstrap5 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+</head>
+<body>
+    <div class="container">
+        <div class="title text-center">
+            <h2>Thanks, we will be waiting for you!</h2>
+            <p>Hotel: {{ room.hotel.name }}</p>
+            <p>Room: {{ room.id }}</p>
+            <p>Your name: {{ guest.user.username }}</p>
+            <a href = "{% url 'hotels' %}"><button type="button" class="btn btn-outline-primary">Go back</button></a>
+        </div>
+    </div>
+    
+    
+
+
+</body>
+</html>

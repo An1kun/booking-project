@@ -18,19 +18,23 @@
                 
                 <form method="POST">
                     {% csrf_token %}
-                    <div class="mb-3">
+                    <div class="mb-3 mt-4">
                         <label for="room" class="form-label">Choose room:</label>
                         {{ form.room }}  <!-- Здесь будет отображён выпадающий список для доступных комнат -->
                     </div>
                     <button type="submit" class="btn btn-primary">Book</button>
                 </form>
-                
-                <h3>All rooms:</h3>
                 <ul>
+                <h4 class="mt-4">Free rooms:</h4>
+                <ul class="list-group w-30">
                     {% for room in rooms %}
-                        <li>Room ID: {{ room.id }} - Reserved: {{ room.reserved }}</li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">>Room ID: {{ room.id }}
+                        {% if room.reserved == False %}
+                            <div class="badge badge-primary badge-pill text-success">Available</div>
+                        {% endif %}
+                        </li>
                     {% empty %}
-                        <li>No rooms.</li>
+                        <li class="list-group-item">>No rooms.</li>
                     {% endfor %}
                 </ul>
             </div>
