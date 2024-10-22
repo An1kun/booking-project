@@ -1,18 +1,23 @@
+{% load bootstrap5 %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
 </head>
 <body>
-    <h2>Login</h2>
 
-    <form method="post">
-        {%csrf_token%}
-        {{form.as_p}}
-        <button type="submit">Sign in</button>
-    </form>
+    <div class="text-center">
+        <h2 class="mt-5">Login</h2>
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-primary mt-3">Sign in</button>
+        </form>
+    </div>
 
 </body>
 </html>
