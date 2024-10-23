@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
 from django.contrib import messages
 from .forms import UserRegistationForm
-from .models import User, Favorites, Employee, Review
+from .models import User, Employee, Review
 from hotel.models import Hotel
 from .forms import ReviewForm
 from django.http import HttpResponse
@@ -40,7 +40,7 @@ def create_review(request, hotel_id):
             review.hotel = hotel
             review.user = request.user
             review.save()
-            return redirect('hotels')  # Redirect to the hotel reviews page
+            return redirect('hotels')
     else:
         form = ReviewForm()
 
@@ -56,7 +56,7 @@ def edit_review(request, hotel_id, review_id):
         form = ReviewForm(request.POST, instance=review)
         if form.is_valid():
             form.save()
-            return redirect('hotel_reviews', hotel_id=review.hotel.id)  # Redirect to the hotel reviews page
+            return redirect('hotel_reviews', hotel_id=review.hotel.id)
     else:
         form = ReviewForm(instance=review)
 
@@ -69,7 +69,7 @@ def delete_review(request, hotel_id, review_id):
         return HttpResponse('Error')
     if request.method == 'POST':
         review.delete()
-        return redirect('hotel_reviews', hotel_id=review.hotel.id)  # Redirect to the hotel reviews page
+        return redirect('hotel_reviews', hotel_id=review.hotel.id)
 
     return render(request, 'delete_review.html', {'review': review})
 
