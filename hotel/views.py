@@ -1,8 +1,13 @@
 from django.shortcuts import render, redirect, get_list_or_404, get_object_or_404
-from .models import Hotel, Room
+from .models import Hotel, Room, Favorites
 from users.models import Guest
 from .forms import BookRoomForm
 from django.contrib.auth.decorators import login_required
+from rest_framework import viewsets, status
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from .serializers import HotelSerializer, RoomSerializer, FavoritesSerializer
+from rest_framework.views import APIView
 
 def list_hotels(request):
     hotels = get_list_or_404(Hotel)
@@ -37,3 +42,80 @@ def booked(request, hotel_id, room_id):
     guest = get_object_or_404(Guest, user = request.user, room_id=room_id)
     room = get_object_or_404(Room, id = room_id)
     return render(request, 'booked.html', {'guest': guest, 'room': room})
+
+
+class HotelViewSet(viewsets.ModelViewSet):
+    queryset = Hotel.objects.all()
+    serializer_class = HotelSerializer
+    permission_classes = [IsAuthenticated]
+
+class RoomViewSet(viewsets.ModelViewSet):
+    queryset = Room.objects.all()
+    serializer_class = RoomSerializer
+    permission_classes = [IsAuthenticated]
+
+class FavoritesViewSet(viewsets.ModelViewSet):
+    queryset = Favorites.objects.all()
+    serializer_class = FavoritesSerializer
+    permission_classes = [IsAuthenticated]
+
+
+class HotelRoomListCreateView(APIView):
+    def get(self, request, hotel_id):
+        try:
+            hotel = Hotel.objects.get(id=hotel_id)
+        except Hotel.DoesNotExist:
+            return Response({"error": "Hotel not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        rooms = Room.objects.filter(hotel=hotel)
+        serializer = RoomSerializer(rooms, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, hotel_id):
+        try:
+            hotel = Hotel.objects.get(id=hotel_id)
+        except Hotel.DoesNotExist:
+            return Response({"error": "Hotel not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        data = request.data.copy()
+        data['hotel'] = hotel.id
+
+        serializer = RoomSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class HotelRoomDetailView(APIView):
+    def get(self, request, hotel_id, room_id):
+        try:
+            hotel = Hotel.objects.get(id=hotel_id)
+            room = Room.objects.get(id=room_id, hotel=hotel)
+        except (Hotel.DoesNotExist, Room.DoesNotExist):
+            return Response({"error": "Hotel or Room not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = RoomSerializer(room)
+        return Response(serializer.data)
+
+    def put(self, request, hotel_id, room_id):
+        try:
+            hotel = Hotel.objects.get(id=hotel_id)
+            room = Room.objects.get(id=room_id, hotel=hotel)
+        except (Hotel.DoesNotExist, Room.DoesNotExist):
+            return Response({"error": "Hotel or Room not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = RoomSerializer(room, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, hotel_id, room_id):
+        try:
+            hotel = Hotel.objects.get(id=hotel_id)
+            room = Room.objects.get(id=room_id, hotel=hotel)
+        except (Hotel.DoesNotExist, Room.DoesNotExist):
+            return Response({"error": "Hotel or Room not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        room.delete()
+        return Response({"message": "Room deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
