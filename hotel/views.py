@@ -65,7 +65,7 @@ class HotelRoomListCreateView(APIView):
         try:
             hotel = Hotel.objects.get(id=hotel_id)
         except Hotel.DoesNotExist:
-            return Response({"error": "Hotel not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error ": "Hotel not found"}, status=status.HTTP_404_NOT_FOUND)
 
         rooms = Room.objects.filter(hotel=hotel)
         serializer = RoomSerializer(rooms, many=True)
