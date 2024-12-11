@@ -2,10 +2,36 @@ from django.shortcuts import render, redirect, get_list_or_404, get_object_or_40
 from django.contrib import messages
 from .forms import UserRegistationForm
 from .models import User, Employee, Review
-from hotel.models import Hotel
+from hotel.models import Hotel, Room
 from .forms import ReviewForm
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+import matplotlib.pyplot as plt
+import io
+from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
+import json
+
+
+def generate_chart(request):
+    hotels = Hotel.objects.all()
+    hotels_list = []
+    rooms_list = []
+    rooms = Room.objects.all()
+
+    for hotel in hotels:
+        rooms_count = 0
+        hotels_list.append(hotel.name)
+        for room in rooms:
+            if room.hotel == hotel:
+                rooms_count += 1
+        rooms_list.append(rooms_count)
+
+
+    context = {
+        'hotels_list': json.dumps(hotels_list),  # JSON string
+        'rooms_list': json.dumps(rooms_list)
+    }
+    return render(request, 'chart.html', context)
 
 
 def registration(request):
